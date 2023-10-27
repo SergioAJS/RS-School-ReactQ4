@@ -1,47 +1,30 @@
 import { Component } from 'react';
 import styles from './Search.module.scss';
 
-interface SearchState {
+interface SearchProps {
+  handleSearch: (event: React.FormEvent<HTMLFormElement>) => void;
+  onChange: (event: React.FormEvent<HTMLInputElement>) => void;
   input: string;
 }
 
-export class Search extends Component<object, SearchState> {
-  constructor(props: object) {
-    super(props);
-    this.state = {
-      input: localStorage.getItem('searchInput') || '',
-    };
-  }
-
-  onChange = (event: React.FormEvent<HTMLInputElement>) => {
-    this.setState({
-      input: event.currentTarget.value,
-    });
-  };
-
-  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    localStorage.setItem('searchInput', this.state.input);
-  };
-
+export class Search extends Component<SearchProps> {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.props.handleSearch}>
           <label htmlFor="search">
             <input
               className={styles.search}
               type="search"
               name="search"
               id="search"
-              placeholder="You can search here"
-              onChange={this.onChange}
-              value={this.state.input}
+              placeholder="You can search by the character name"
+              onChange={this.props.onChange}
+              value={this.props.input}
             />
           </label>
           <input type="submit" value="Search" />
         </form>
-        <p>{this.state.input}</p>
       </div>
     );
   }
