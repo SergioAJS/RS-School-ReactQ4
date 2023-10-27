@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { CharacterCard } from '../characterCard/CharacterCard';
 import { Character } from '../../models/Character';
+import Loader from '../loader/Loader';
 
 interface CardsProps {
   searchValue: string;
@@ -8,6 +9,7 @@ interface CardsProps {
 
 interface CardsState {
   characters: Character[];
+  isLoading: boolean;
 }
 
 export class CharacterCards extends Component<CardsProps, CardsState> {
@@ -15,12 +17,16 @@ export class CharacterCards extends Component<CardsProps, CardsState> {
     super(props);
     this.state = {
       characters: [],
+      isLoading: true,
     };
   }
 
   controller = new AbortController();
 
   fetchCharacters = async (characterName: string) => {
+    this.setState({
+      isLoading: true,
+    });
     const charactersRaw = await fetch(
       `https://rickandmortyapi.com/api/character${
         characterName && `/?name=${characterName}`
@@ -30,6 +36,7 @@ export class CharacterCards extends Component<CardsProps, CardsState> {
     const characters = await charactersRaw.json();
     this.setState({
       characters: characters.results,
+      isLoading: false,
     });
   };
 
@@ -65,7 +72,11 @@ export class CharacterCards extends Component<CardsProps, CardsState> {
   render() {
     return (
       <div>
-        <ul>{this.renderCards(this.state.characters)}</ul>
+        {this.state.isLoading ? (
+          <Loader />
+        ) : (
+          <ul>{this.renderCards(this.state.characters)}</ul>
+        )}
       </div>
     );
   }
