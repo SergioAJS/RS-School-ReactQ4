@@ -28,5 +28,3 @@ export class TestErrorBoundary extends Component<
     return <button onClick={this.handleClick}>TestErrorBoundary</button>;
   }
 }
-
-export default TestErrorBoundary;

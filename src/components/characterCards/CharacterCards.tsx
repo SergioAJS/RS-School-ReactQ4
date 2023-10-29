@@ -1,7 +1,7 @@
 import { Component } from 'react';
-import { CharacterCard } from '../characterCard/CharacterCard';
-import { Character } from '../../models/Character';
-import Loader from '../loader/Loader';
+import { CharacterCard } from 'src/components/characterCard/CharacterCard';
+import { Loader } from 'src/components/loader/Loader';
+import { Character } from 'src/models/Character';
 
 interface CardsProps {
   searchValue: string;

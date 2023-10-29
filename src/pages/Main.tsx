@@ -1,7 +1,7 @@
 import { Component } from 'react';
-import { Search } from '../components/search/Search';
-import { CharacterCards } from '../components/characterCards/CharacterCards';
-import TestErrorBoundary from '../components/testErrorBoundary/TestErrorBoundary';
+import { CharacterCards } from 'src/components/characterCards/CharacterCards';
+import { Search } from 'src/components/search/Search';
+import { TestErrorBoundary } from 'src/components/testErrorBoundary/TestErrorBoundary';
 
 interface MainState {
   searchValue: string;

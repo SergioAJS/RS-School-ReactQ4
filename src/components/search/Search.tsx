@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import styles from './Search.module.scss';
+import styles from 'src/components/search/Search.module.scss';
 
 interface SearchProps {
   handleSearch: (event: React.FormEvent<HTMLFormElement>) => void;

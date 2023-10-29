@@ -1,5 +1,5 @@
-import { Gender } from './Gender';
-import { Status } from './Status';
+import { Gender } from 'src/models/Gender';
+import { Status } from 'src/models/Status';
 
 export interface Character {
   id: number;

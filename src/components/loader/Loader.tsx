@@ -5,5 +5,3 @@ export class Loader extends Component {
     return <div>Loading</div>;
   }
 }
-
-export default Loader;

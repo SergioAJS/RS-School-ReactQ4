@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Character } from '../../models/Character';
+import { Character } from 'src/models/Character';
 
 export interface CardProps {
   character: Character;
