@@ -11,7 +11,7 @@ export class Search extends Component<SearchProps> {
   render() {
     return (
       <div>
-        <form onSubmit={this.props.handleSearch}>
+        <form className={styles.form} onSubmit={this.props.handleSearch}>
           <label htmlFor="search">
             <input
               className={styles.search}
@@ -23,7 +23,7 @@ export class Search extends Component<SearchProps> {
               value={this.props.input}
             />
           </label>
-          <input type="submit" value="Search" />
+          <input className={styles.button} type="submit" value="Search" />
         </form>
       </div>
     );

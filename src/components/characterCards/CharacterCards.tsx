@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { CharacterCard } from 'src/components/characterCard/CharacterCard';
 import { Loader } from 'src/components/loader/Loader';
 import { Character } from 'src/models/Character';
+import styles from 'src/components/characterCards/CharacterCards.module.scss';
 
 interface CardsProps {
   searchValue: string;
@@ -10,6 +11,7 @@ interface CardsProps {
 interface CardsState {
   characters: Character[];
   isLoading: boolean;
+  isError: boolean;
 }
 
 export class CharacterCards extends Component<CardsProps, CardsState> {
@@ -18,43 +20,48 @@ export class CharacterCards extends Component<CardsProps, CardsState> {
     this.state = {
       characters: [],
       isLoading: true,
+      isError: false,
     };
   }
 
   controller = new AbortController();
 
   fetchCharacters = async (characterName: string) => {
-    this.setState({
-      isLoading: true,
-    });
-    const charactersRaw = await fetch(
-      `https://rickandmortyapi.com/api/character${
-        characterName && `/?name=${characterName}`
-      }`,
-      { signal: this.controller.signal }
-    );
-    const characters = await charactersRaw.json();
-    this.setState({
-      characters: characters.results,
-      isLoading: false,
-    });
-  };
-
-  async componentDidMount() {
     try {
-      this.fetchCharacters(this.props.searchValue);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async componentDidUpdate(prevProps: CardsProps) {
-    try {
-      if (this.props.searchValue !== prevProps.searchValue) {
-        this.fetchCharacters(this.props.searchValue);
+      this.setState({
+        isLoading: true,
+        isError: false,
+      });
+      const charactersRaw = await fetch(
+        `https://rickandmortyapi.com/api/character${
+          characterName && `/?name=${characterName}`
+        }`,
+        { signal: this.controller.signal }
+      );
+      if (!charactersRaw.ok) {
+        this.setState({
+          isError: true,
+          isLoading: false,
+        });
+      } else {
+        const characters = await charactersRaw.json();
+        this.setState({
+          characters: characters.results,
+          isLoading: false,
+        });
       }
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  async componentDidMount() {
+    this.fetchCharacters(this.props.searchValue);
+  }
+
+  async componentDidUpdate(prevProps: CardsProps) {
+    if (this.props.searchValue !== prevProps.searchValue) {
+      this.fetchCharacters(this.props.searchValue);
     }
   }
 
@@ -74,8 +81,12 @@ export class CharacterCards extends Component<CardsProps, CardsState> {
       <div>
         {this.state.isLoading ? (
           <Loader />
+        ) : this.state.isError ? (
+          <p>Character does not exist </p>
         ) : (
-          <ul>{this.renderCards(this.state.characters)}</ul>
+          <ul className={styles.cards}>
+            {this.renderCards(this.state.characters)}
+          </ul>
         )}
       </div>
     );

@@ -6,14 +6,10 @@ interface ErrorFallbackProps {
 }
 
 export class ErrorFallback extends Component<ErrorFallbackProps> {
-  constructor(props: ErrorFallbackProps | Readonly<ErrorFallbackProps>) {
-    super(props);
-  }
-
   render() {
     return (
       <div>
-        <h2>Something went wrong.</h2>
+        <h2>Something went wrong. Please refresh the page.</h2>
         <details style={{ whiteSpace: 'pre-wrap' }}>
           {this.props.error && this.props.error.toString()}
           <br />

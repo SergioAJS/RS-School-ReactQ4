@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { CharacterCards } from 'src/components/characterCards/CharacterCards';
 import { Search } from 'src/components/search/Search';
 import { TestErrorBoundary } from 'src/components/testErrorBoundary/TestErrorBoundary';
+import styles from 'src/pages/Main.module.scss';
 
 interface MainState {
   searchValue: string;
@@ -34,7 +35,7 @@ export class Main extends Component<object, MainState> {
 
   render() {
     return (
-      <div>
+      <div className={styles.main}>
         <Search
           handleSearch={this.handleSearch}
           onChange={this.onChange}

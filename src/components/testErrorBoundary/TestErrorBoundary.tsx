@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import styles from 'src/components/search/Search.module.scss';
 
 interface TestErrorBoundaryState {
   hasError: boolean;
@@ -25,6 +26,10 @@ export class TestErrorBoundary extends Component<
     if (this.state.hasError) {
       throw new Error('Catch');
     }
-    return <button onClick={this.handleClick}>TestErrorBoundary</button>;
+    return (
+      <button className={styles.button} onClick={this.handleClick}>
+        TestErrorBoundary
+      </button>
+    );
   }
 }
