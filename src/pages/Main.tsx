@@ -13,8 +13,8 @@ export class Main extends Component<object, MainState> {
   constructor(props: object) {
     super(props);
     this.state = {
-      searchValue: localStorage.getItem('searchValue') || '',
-      input: localStorage.getItem('searchValue') || '',
+      searchValue: localStorage.getItem('searchValue-SergioAJS') || '',
+      input: localStorage.getItem('searchValue-SergioAJS') || '',
     };
   }
 
@@ -30,7 +30,7 @@ export class Main extends Component<object, MainState> {
       searchValue: this.state.input.trim(),
       input: this.state.input.trim(),
     });
-    localStorage.setItem('searchValue', this.state.input.trim());
+    localStorage.setItem('searchValue-SergioAJS', this.state.input.trim());
   };
 
   render() {
