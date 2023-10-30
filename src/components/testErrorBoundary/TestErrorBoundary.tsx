@@ -1,35 +1,20 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import styles from 'src/components/search/Search.module.scss';
 
-interface TestErrorBoundaryState {
-  hasError: boolean;
-}
+export const TestErrorBoundary = () => {
+  const [hasError, setHasError] = useState(false);
 
-export class TestErrorBoundary extends Component<
-  object,
-  TestErrorBoundaryState
-> {
-  constructor(props: object) {
-    super(props);
-    this.state = {
-      hasError: false,
-    };
-  }
-
-  handleClick = () => {
-    this.setState({
-      hasError: true,
-    });
+  const handleClick = () => {
+    setHasError(true);
   };
 
-  render() {
-    if (this.state.hasError) {
-      throw new Error('Catch');
-    }
-    return (
-      <button className={styles.button} onClick={this.handleClick}>
-        TestErrorBoundary
-      </button>
-    );
+  if (hasError) {
+    throw new Error('Catch');
   }
-}
+
+  return (
+    <button className={styles.button} onClick={handleClick}>
+      TestErrorBoundary
+    </button>
+  );
+};

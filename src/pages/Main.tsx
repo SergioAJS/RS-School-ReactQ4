@@ -1,49 +1,33 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { CharacterCards } from 'src/components/characterCards/CharacterCards';
 import { Search } from 'src/components/search/Search';
 import { TestErrorBoundary } from 'src/components/testErrorBoundary/TestErrorBoundary';
 import styles from 'src/pages/Main.module.scss';
 
-interface MainState {
-  searchValue: string;
-  input: string;
-}
+export const Main = () => {
+  const [searchValue, setSearchValue] = useState<string>(
+    localStorage.getItem('searchValue-SergioAJS') || ''
+  );
+  const [input, setInput] = useState<string>(
+    localStorage.getItem('searchValue-SergioAJS') || ''
+  );
 
-export class Main extends Component<object, MainState> {
-  constructor(props: object) {
-    super(props);
-    this.state = {
-      searchValue: localStorage.getItem('searchValue-SergioAJS') || '',
-      input: localStorage.getItem('searchValue-SergioAJS') || '',
-    };
-  }
-
-  onChange = (event: React.FormEvent<HTMLInputElement>) => {
-    this.setState({
-      input: event.currentTarget.value,
-    });
+  const onChange = (event: React.FormEvent<HTMLInputElement>) => {
+    setInput(event.currentTarget.value);
   };
 
-  handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    this.setState({
-      searchValue: this.state.input.trim(),
-      input: this.state.input.trim(),
-    });
-    localStorage.setItem('searchValue-SergioAJS', this.state.input.trim());
+    setInput(input.trim());
+    setSearchValue(input.trim());
+    localStorage.setItem('searchValue-SergioAJS', input.trim());
   };
 
-  render() {
-    return (
-      <div className={styles.main}>
-        <Search
-          handleSearch={this.handleSearch}
-          onChange={this.onChange}
-          input={this.state.input}
-        />
-        <TestErrorBoundary />
-        <CharacterCards searchValue={this.state.searchValue} />
-      </div>
-    );
-  }
-}
+  return (
+    <div className={styles.main}>
+      <Search handleSearch={handleSearch} onChange={onChange} input={input} />
+      <TestErrorBoundary />
+      <CharacterCards searchValue={searchValue} />
+    </div>
+  );
+};
