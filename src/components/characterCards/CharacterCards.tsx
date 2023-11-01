@@ -9,7 +9,7 @@ interface CardsProps {
 }
 
 export const CharacterCards = (props: CardsProps) => {
-  const { characters, isLoading, error } = useFetchCharacters(
+  const { characters, pages, isLoading, error } = useFetchCharacters(
     props.searchValue
   );
 
@@ -20,6 +20,16 @@ export const CharacterCards = (props: CardsProps) => {
       ));
   };
 
+  const renderPageLinks = (numberOfPages: number) => {
+    if (numberOfPages) {
+      const pages = Array.from(
+        { length: numberOfPages },
+        (_page, index) => index + 1
+      );
+      return pages.map((page) => <strong key={page}>{page} </strong>);
+    }
+  };
+
   return (
     <div>
       {isLoading ? (
@@ -27,7 +37,10 @@ export const CharacterCards = (props: CardsProps) => {
       ) : error ? (
         <p>{error}</p>
       ) : (
-        <ul className={styles.cards}>{renderCards(characters)}</ul>
+        <>
+          <div>{renderPageLinks(pages)}</div>
+          <ul className={styles.cards}>{renderCards(characters)}</ul>
+        </>
       )}
     </div>
   );

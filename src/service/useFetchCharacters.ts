@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
+import { ApiResponse } from 'src/models/ApiResponse';
 import { Character } from 'src/models/Character';
+
+const FIRST_PAGE = 1;
 
 export const useFetchCharacters = (characterName: string) => {
   const [characters, setCharacters] = useState<Character[]>([]);
+  const [pages, setPages] = useState<number>(FIRST_PAGE);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -12,19 +16,20 @@ export const useFetchCharacters = (characterName: string) => {
       try {
         setIsLoading(true);
         setError(null);
-        const charactersRaw = await fetch(
+        const apiResponseRaw = await fetch(
           `https://rickandmortyapi.com/api/character/?page=1${
             characterName && `&name=${characterName}`
           }`,
           { signal: controller.signal }
         );
-        if (!charactersRaw.ok) {
+        if (!apiResponseRaw.ok) {
           setError('Character does not exist');
           console.warn('Character does not exist');
           setIsLoading(false);
         } else {
-          const characters = await charactersRaw.json();
-          setCharacters(characters.results);
+          const apiResponse: ApiResponse = await apiResponseRaw.json();
+          setCharacters(apiResponse.results);
+          setPages(apiResponse.info.pages);
           setIsLoading(false);
         }
       } catch (e) {
@@ -47,5 +52,5 @@ export const useFetchCharacters = (characterName: string) => {
     };
   }, [characterName]);
 
-  return { characters, isLoading, error };
+  return { characters, pages, isLoading, error };
 };
