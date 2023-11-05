@@ -1,33 +1,30 @@
+// import { Link } from 'react-router-dom';
 import { CharacterCard } from 'src/components/characterCard/CharacterCard';
 import styles from 'src/components/characterCards/CharacterCards.module.scss';
 import { Loader } from 'src/components/loader/Loader';
-import { Character } from 'src/models/Character';
-import { useFetchCharacters } from 'src/service/useFetchCharacters';
+// import { Character } from 'src/models/Character';
+import { HouseGOT } from 'src/models/HouseGOT';
+// import { useFetchCharacters } from 'src/service/useFetchCharacters';
+import { useFetchGOT } from 'src/service/useFetchGOT';
 
 interface CardsProps {
   searchValue: string;
+  page: string | undefined;
+  pageSize: string;
 }
 
 export const CharacterCards = (props: CardsProps) => {
-  const { characters, pages, isLoading, error } = useFetchCharacters(
-    props.searchValue
+  const { houses, isLoading, error } = useFetchGOT(
+    props.searchValue,
+    props.page,
+    props.pageSize
   );
 
-  const renderCards = (characters: Character[]) => {
+  const renderCards = (characters: HouseGOT[]) => {
     if (characters)
       return characters.map((character) => (
-        <CharacterCard character={character} key={character.id} />
+        <CharacterCard character={character} key={character.url} />
       ));
-  };
-
-  const renderPageLinks = (numberOfPages: number) => {
-    if (numberOfPages) {
-      const pages = Array.from(
-        { length: numberOfPages },
-        (_page, index) => index + 1
-      );
-      return pages.map((page) => <strong key={page}>{page} </strong>);
-    }
   };
 
   return (
@@ -38,8 +35,7 @@ export const CharacterCards = (props: CardsProps) => {
         <p>{error}</p>
       ) : (
         <>
-          <div>{renderPageLinks(pages)}</div>
-          <ul className={styles.cards}>{renderCards(characters)}</ul>
+          <ul className={styles.cards}>{renderCards(houses)}</ul>
         </>
       )}
     </div>

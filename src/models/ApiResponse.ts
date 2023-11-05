@@ -1,4 +1,5 @@
 import { Character } from 'src/models/Character';
+import { HouseGOT } from 'src/models/HouseGOT';
 
 export interface ApiResponse {
   info: {
@@ -8,4 +9,8 @@ export interface ApiResponse {
     prev: string | null;
   };
   results: Character[];
+}
+
+export interface ApiResponseGOT {
+  housesGOT: HouseGOT[];
 }
