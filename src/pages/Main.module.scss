@@ -4,6 +4,11 @@
   gap: 20px;
   align-items: center;
 
+  .pagination {
+    display: flex;
+    gap: 10px;
+  }
+
   .cardsContainer {
     display: flex;
     gap: 20px;

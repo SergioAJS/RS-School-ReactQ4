@@ -4,10 +4,6 @@ import {
   parseLinkHeader,
 } from 'src/components/utils/parseLinkHeader';
 import { HouseGOT } from 'src/models/HouseGOT';
-// import { ApiResponseGOT } from 'src/models/ApiResponse';
-// import { HouseGOT } from 'src/models/HouseGOT';
-
-// const FIRST_PAGE = 1;
 
 export const useFetchGOT = (
   region: string,
@@ -15,7 +11,6 @@ export const useFetchGOT = (
   pageSize: string
 ) => {
   const [houses, setHouses] = useState<HouseGOT[]>([]);
-  // const [pages, setPages] = useState<number>(FIRST_PAGE);
   const [parsedLink, serParsedLink] = useState<ParsedData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
