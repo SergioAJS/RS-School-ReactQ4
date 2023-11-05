@@ -1,15 +1,20 @@
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
-import { Link, Outlet, useSearchParams } from 'react-router-dom';
+import { Link, Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import { CharacterCards } from 'src/components/characterCards/CharacterCards';
 import { Search } from 'src/components/search/Search';
 import { TestErrorBoundary } from 'src/components/testErrorBoundary/TestErrorBoundary';
 import styles from 'src/pages/Main.module.scss';
 import { useFetchGOT } from 'src/service/useFetchGOT';
 
+export type ContextType = {
+  houseID: string;
+};
+
 const FIRST_PAGE = '1';
 const DEFAULT_NUMBER_OF_ITEMS = '10';
 
 export const Main = () => {
+  const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState<string>(
     localStorage.getItem('searchValue-SergioAJS') || ''
   );
@@ -17,7 +22,7 @@ export const Main = () => {
     localStorage.getItem('searchValue-SergioAJS') || ''
   );
   const [search, setSearch] = useSearchParams();
-  const queryPage = search.get('page') || FIRST_PAGE;
+  const queryPage = search.get('page');
   const queryNumberOfItems = search.get('numberOfItems');
   const [page, setPage] = useState<string | undefined>(
     queryPage || localStorage.getItem('page-SergioAJS') || FIRST_PAGE
@@ -76,6 +81,7 @@ export const Main = () => {
     setNumberOfItems(select);
     setPage(FIRST_PAGE);
     localStorage.setItem('numberOfItems-SergioAJS', select);
+    navigate('/');
   };
 
   const onChange = (event: React.FormEvent<HTMLInputElement>) => {
@@ -90,6 +96,16 @@ export const Main = () => {
     search.set('page', FIRST_PAGE);
     setSearch(search);
     setPage(FIRST_PAGE);
+  };
+
+  const [houseID, setHouseID] = useState(
+    localStorage.getItem('houseID-SergioAJS') || ''
+  );
+
+  const onCardClick = (houseID: string) => {
+    const getHouseID = houseID.split('/')[5];
+    localStorage.setItem('houseID-SergioAJS', getHouseID);
+    setHouseID(getHouseID);
   };
 
   return (
@@ -127,14 +143,14 @@ export const Main = () => {
         <option value="12">12</option>
         <option value="16">16</option>
       </select>
-      {parsedLink && <p>{parsedLink.first}</p>}
-      {parsedLink && <p>{parsedLink.last}</p>}
-      {parsedLink && <p>{parsedLink.prev}</p>}
-      {parsedLink && <p>{parsedLink.next}</p>}
-
       <div className={styles.cardsContainer}>
-        <CharacterCards houses={houses} isLoading={isLoading} error={error} />
-        <Outlet />
+        <CharacterCards
+          houses={houses}
+          isLoading={isLoading}
+          error={error}
+          onCardClick={onCardClick}
+        />
+        <Outlet context={{ houseID } satisfies ContextType} />
       </div>
     </div>
   );

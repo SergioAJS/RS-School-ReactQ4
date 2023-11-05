@@ -16,7 +16,7 @@ export const Search = (props: SearchProps) => {
             type="search"
             name="search"
             id="search"
-            placeholder="You can search by the character name"
+            placeholder="You can search by the region"
             onChange={props.onChange}
             value={props.input}
           />

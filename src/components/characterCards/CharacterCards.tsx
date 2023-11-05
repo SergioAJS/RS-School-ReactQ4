@@ -7,13 +7,18 @@ interface CardsProps {
   houses: HouseGOT[];
   isLoading: boolean;
   error: string | null;
+  onCardClick: (houseID: string) => void;
 }
 
 export const CharacterCards = (props: CardsProps) => {
   const renderCards = (houses: HouseGOT[]) => {
     if (houses)
       return houses.map((house) => (
-        <CharacterCard character={house} key={house.url} />
+        <CharacterCard
+          character={house}
+          key={house.url}
+          onCardClick={props.onCardClick}
+        />
       ));
   };
 
