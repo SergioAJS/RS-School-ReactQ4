@@ -1,6 +1,6 @@
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
-import { Link, Outlet, useNavigate, useSearchParams } from 'react-router-dom';
-import { CharacterCards } from 'src/components/characterCards/CharacterCards';
+import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
+import { HouseCards } from 'src/components/houseCards/HouseCards';
 import { Search } from 'src/components/search/Search';
 import { TestErrorBoundary } from 'src/components/testErrorBoundary/TestErrorBoundary';
 import styles from 'src/pages/Main.module.scss';
@@ -53,6 +53,7 @@ export const Main = () => {
         localStorage.setItem('page-SergioAJS', result);
         setPage(result);
         setSearch(search);
+        navigate('/');
       }
     };
     switch (target.value) {
@@ -113,22 +114,40 @@ export const Main = () => {
       <Search handleSearch={handleSearch} onChange={onChange} input={input} />
       <TestErrorBoundary />
       <div className={styles.pagination}>
-        <button type="submit" onClick={onChangePage} value={'First'}>
+        <button
+          className={styles.button}
+          type="submit"
+          onClick={onChangePage}
+          value={'First'}
+        >
           First
-          {parsedLink?.first && <Link to={parsedLink?.first} />}
         </button>
-        <button type="submit" onClick={onChangePage} value={'Prev'}>
+        <button
+          disabled={!parsedLink?.prev}
+          className={styles.button}
+          type="submit"
+          onClick={onChangePage}
+          value={'Prev'}
+        >
           Prev
-          {parsedLink?.first && <Link to={parsedLink?.first} />}
         </button>
         <p>Page: {page}</p>
-        <button type="submit" onClick={onChangePage} value={'Next'}>
+        <button
+          disabled={!parsedLink?.next}
+          className={styles.button}
+          type="submit"
+          onClick={onChangePage}
+          value={'Next'}
+        >
           Next
-          {parsedLink?.first && <Link to={parsedLink?.first} />}
         </button>
-        <button type="submit" onClick={onChangePage} value={'Last'}>
+        <button
+          className={styles.button}
+          type="submit"
+          onClick={onChangePage}
+          value={'Last'}
+        >
           Last
-          {parsedLink?.last && <Link to={parsedLink?.last} />}
         </button>
       </div>
       <select
@@ -144,7 +163,7 @@ export const Main = () => {
         <option value="16">16</option>
       </select>
       <div className={styles.cardsContainer}>
-        <CharacterCards
+        <HouseCards
           houses={houses}
           isLoading={isLoading}
           error={error}

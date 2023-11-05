@@ -29,8 +29,8 @@ export const useFetchGOTHouse = (houseID: string) => {
         }
         const apiResponse: HouseGOT = await apiResponseRaw.json();
         if (!apiResponse) {
-          setError('Character does not exist');
-          console.warn('Character does not exist');
+          setError('House does not exist');
+          console.warn('House does not exist');
           setIsLoading(false);
         } else {
           setHouse(apiResponse);

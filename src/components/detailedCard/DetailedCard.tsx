@@ -1,10 +1,9 @@
-// import { useOutletContext } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styles from 'src/components/detailedCard/DetailedCard.module.scss';
 import { Loader } from 'src/components/loader/Loader';
 import { useID } from 'src/components/utils/useID';
-import { useFetchGOTHouse } from 'src/service/useFetchGOTHouse';
 import closeIcon from 'src/resources/close.svg';
-import { useNavigate } from 'react-router-dom';
+import { useFetchGOTHouse } from 'src/service/useFetchGOTHouse';
 
 export const DetailedCard = () => {
   const { houseID } = useID();
