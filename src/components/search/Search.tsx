@@ -1,15 +1,13 @@
+import { useContext } from 'react';
 import styles from 'src/components/search/Search.module.scss';
+import { Context } from 'src/components/utils/context';
 
-interface SearchProps {
-  handleSearch: (event: React.FormEvent<HTMLFormElement>) => void;
-  onChange: (event: React.FormEvent<HTMLInputElement>) => void;
-  input: string;
-}
+export const Search = () => {
+  const { input, onChange, handleSearch } = useContext(Context);
 
-export const Search = (props: SearchProps) => {
   return (
     <div>
-      <form className={styles.form} onSubmit={props.handleSearch}>
+      <form className={styles.form} onSubmit={handleSearch}>
         <label htmlFor="search">
           <input
             className={styles.search}
@@ -17,8 +15,8 @@ export const Search = (props: SearchProps) => {
             name="search"
             id="search"
             placeholder="You can search by the region"
-            onChange={props.onChange}
-            value={props.input}
+            onChange={onChange}
+            value={input}
           />
         </label>
         <input className={styles.button} type="submit" value="Search" />

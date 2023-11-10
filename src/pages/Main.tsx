@@ -1,8 +1,10 @@
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
 import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
+import { Button } from 'src/components/button/Button';
 import { HouseCards } from 'src/components/houseCards/HouseCards';
 import { Search } from 'src/components/search/Search';
 import { TestErrorBoundary } from 'src/components/testErrorBoundary/TestErrorBoundary';
+import { Context } from 'src/components/utils/context';
 import styles from 'src/pages/Main.module.scss';
 import { useFetchGOT } from 'src/service/useFetchGOT';
 
@@ -110,67 +112,65 @@ export const Main = () => {
   };
 
   return (
-    <div className={styles.main}>
-      <Search handleSearch={handleSearch} onChange={onChange} input={input} />
-      <TestErrorBoundary />
-      <div className={styles.pagination}>
-        <button
-          className={styles.button}
-          type="submit"
-          onClick={onChangePage}
-          value={'First'}
+    <Context.Provider
+      value={{ input, onChange, handleSearch, houses, onCardClick }}
+    >
+      <div className={styles.main}>
+        <Search />
+        <TestErrorBoundary />
+        <div className={styles.pagination}>
+          <button
+            className={styles.button}
+            type="submit"
+            onClick={onChangePage}
+            value={'First'}
+          >
+            First
+          </button>
+          <Button
+            disabled={!parsedLink?.prev}
+            className={styles.button}
+            type="submit"
+            onClick={onChangePage}
+            value={'Prev'}
+            text="Prev"
+          />
+          <p>Page: {page}</p>
+          <button
+            disabled={!parsedLink?.next}
+            className={styles.button}
+            type="submit"
+            onClick={onChangePage}
+            value={'Next'}
+          >
+            Next
+          </button>
+          <button
+            className={styles.button}
+            type="submit"
+            onClick={onChangePage}
+            value={'Last'}
+          >
+            Last
+          </button>
+        </div>
+        <select
+          name="select"
+          id="selectNumberOfItems"
+          value={numberOfItems}
+          onChange={onSelect}
         >
-          First
-        </button>
-        <button
-          disabled={!parsedLink?.prev}
-          className={styles.button}
-          type="submit"
-          onClick={onChangePage}
-          value={'Prev'}
-        >
-          Prev
-        </button>
-        <p>Page: {page}</p>
-        <button
-          disabled={!parsedLink?.next}
-          className={styles.button}
-          type="submit"
-          onClick={onChangePage}
-          value={'Next'}
-        >
-          Next
-        </button>
-        <button
-          className={styles.button}
-          type="submit"
-          onClick={onChangePage}
-          value={'Last'}
-        >
-          Last
-        </button>
+          <option value="">--Number of Items--</option>
+          <option value="4">4</option>
+          <option value="8">8</option>
+          <option value="12">12</option>
+          <option value="16">16</option>
+        </select>
+        <div className={styles.cardsContainer}>
+          <HouseCards isLoading={isLoading} error={error} />
+          <Outlet context={{ houseID } satisfies ContextType} />
+        </div>
       </div>
-      <select
-        name="select"
-        id="selectNumberOfItems"
-        value={numberOfItems}
-        onChange={onSelect}
-      >
-        <option value="">--Number of Items--</option>
-        <option value="4">4</option>
-        <option value="8">8</option>
-        <option value="12">12</option>
-        <option value="16">16</option>
-      </select>
-      <div className={styles.cardsContainer}>
-        <HouseCards
-          houses={houses}
-          isLoading={isLoading}
-          error={error}
-          onCardClick={onCardClick}
-        />
-        <Outlet context={{ houseID } satisfies ContextType} />
-      </div>
-    </div>
+    </Context.Provider>
   );
 };
