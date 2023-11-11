@@ -9,7 +9,7 @@ export interface ContextInterface {
   onCardClick: (houseID: string) => void;
 }
 
-const defaultContext: ContextInterface = {
+export const defaultContext: ContextInterface = {
   input: '',
   onChange: () => {},
   handleSearch: () => {},

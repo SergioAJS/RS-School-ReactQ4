@@ -20,6 +20,7 @@ export const HouseCard = (props: CardProps) => {
       }}
       id={props.house.url}
       title={`More info about ${props.house.name}`}
+      data-testid="houseCard"
     >
       <h3>{props.house.name}</h3>
       <p>Region: {props.house.region}</p>
