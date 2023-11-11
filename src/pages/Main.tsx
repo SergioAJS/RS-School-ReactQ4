@@ -1,8 +1,9 @@
 import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
 import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
-import { Button } from 'src/components/button/Button';
 import { HouseCards } from 'src/components/houseCards/HouseCards';
+import { Pagination } from 'src/components/pagination/Pagination';
 import { Search } from 'src/components/search/Search';
+import { Select } from 'src/components/select/Select';
 import { TestErrorBoundary } from 'src/components/testErrorBoundary/TestErrorBoundary';
 import { Context } from 'src/components/utils/context';
 import styles from 'src/pages/Main.module.scss';
@@ -33,6 +34,9 @@ export const Main = () => {
     queryNumberOfItems ||
       localStorage.getItem('numberOfItems-SergioAJS') ||
       DEFAULT_NUMBER_OF_ITEMS
+  );
+  const [houseID, setHouseID] = useState(
+    localStorage.getItem('houseID-SergioAJS') || ''
   );
   const { houses, isLoading, error, parsedLink } = useFetchGOT(
     searchValue,
@@ -101,10 +105,6 @@ export const Main = () => {
     setPage(FIRST_PAGE);
   };
 
-  const [houseID, setHouseID] = useState(
-    localStorage.getItem('houseID-SergioAJS') || ''
-  );
-
   const onCardClick = (houseID: string) => {
     const getHouseID = houseID.split('/')[5];
     localStorage.setItem('houseID-SergioAJS', getHouseID);
@@ -118,54 +118,29 @@ export const Main = () => {
       <div className={styles.main}>
         <Search />
         <TestErrorBoundary />
-        <div className={styles.pagination}>
-          <button
-            className={styles.button}
-            type="submit"
-            onClick={onChangePage}
-            value={'First'}
-          >
-            First
-          </button>
-          <Button
-            disabled={!parsedLink?.prev}
-            className={styles.button}
-            type="submit"
-            onClick={onChangePage}
-            value={'Prev'}
-            text="Prev"
-          />
-          <p>Page: {page}</p>
-          <button
-            disabled={!parsedLink?.next}
-            className={styles.button}
-            type="submit"
-            onClick={onChangePage}
-            value={'Next'}
-          >
-            Next
-          </button>
-          <button
-            className={styles.button}
-            type="submit"
-            onClick={onChangePage}
-            value={'Last'}
-          >
-            Last
-          </button>
-        </div>
-        <select
+        <Pagination
+          page={page}
+          parsedLink={parsedLink}
+          onChangePage={onChangePage}
+        />
+        <Select
+          label="Number of Items:"
           name="select"
           id="selectNumberOfItems"
           value={numberOfItems}
-          onChange={onSelect}
-        >
-          <option value="">--Number of Items--</option>
-          <option value="4">4</option>
-          <option value="8">8</option>
-          <option value="12">12</option>
-          <option value="16">16</option>
-        </select>
+          onSelect={onSelect}
+          options={[
+            { key: '4', value: '4', text: '4' },
+            { key: '8', value: '8', text: '8' },
+            {
+              key: DEFAULT_NUMBER_OF_ITEMS,
+              value: DEFAULT_NUMBER_OF_ITEMS,
+              text: DEFAULT_NUMBER_OF_ITEMS,
+            },
+            { key: '12', value: '12', text: '12' },
+            { key: '16', value: '16', text: '16' },
+          ]}
+        />
         <div className={styles.cardsContainer}>
           <HouseCards isLoading={isLoading} error={error} />
           <Outlet context={{ houseID } satisfies ContextType} />
