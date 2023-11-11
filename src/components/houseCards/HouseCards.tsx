@@ -8,6 +8,7 @@ import { HouseGOT } from 'src/models/HouseGOT';
 interface CardsProps {
   isLoading: boolean;
   error: string | null;
+  onCardClick: (houseID: string) => void;
 }
 
 export const HouseCards = (props: CardsProps) => {
@@ -15,7 +16,13 @@ export const HouseCards = (props: CardsProps) => {
 
   const renderCards = (houses: HouseGOT[]) => {
     if (houses)
-      return houses.map((house) => <HouseCard house={house} key={house.url} />);
+      return houses.map((house) => (
+        <HouseCard
+          house={house}
+          key={house.url}
+          onCardClick={props.onCardClick}
+        />
+      ));
   };
 
   return (

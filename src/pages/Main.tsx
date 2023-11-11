@@ -112,9 +112,7 @@ export const Main = () => {
   };
 
   return (
-    <Context.Provider
-      value={{ input, onChange, handleSearch, houses, onCardClick }}
-    >
+    <Context.Provider value={{ input, onChange, handleSearch, houses }}>
       <div className={styles.main}>
         <Search />
         <TestErrorBoundary />
@@ -142,7 +140,11 @@ export const Main = () => {
           ]}
         />
         <div className={styles.cardsContainer}>
-          <HouseCards isLoading={isLoading} error={error} />
+          <HouseCards
+            isLoading={isLoading}
+            error={error}
+            onCardClick={onCardClick}
+          />
           <Outlet context={{ houseID } satisfies ContextType} />
         </div>
       </div>

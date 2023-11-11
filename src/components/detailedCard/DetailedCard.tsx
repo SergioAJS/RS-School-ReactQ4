@@ -28,7 +28,7 @@ export const DetailedCard = () => {
                 navigate('/');
               }}
             />
-            <div className={styles.card}>
+            <div className={styles.card} data-testid="detailedCard">
               <h3>{house?.name}</h3>
               <p>Region: {house?.region}</p>
               <p>Coat Of Arms: {house?.coatOfArms}</p>

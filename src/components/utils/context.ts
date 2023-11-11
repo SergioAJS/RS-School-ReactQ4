@@ -6,7 +6,7 @@ export interface ContextInterface {
   onChange: (event: React.FormEvent<HTMLInputElement>) => void;
   handleSearch: (event: React.FormEvent<HTMLFormElement>) => void;
   houses: HouseGOT[];
-  onCardClick: (houseID: string) => void;
+  // onCardClick: (houseID: string) => void;
 }
 
 export const defaultContext: ContextInterface = {
@@ -14,7 +14,7 @@ export const defaultContext: ContextInterface = {
   onChange: () => {},
   handleSearch: () => {},
   houses: [],
-  onCardClick: () => {},
+  // onCardClick: () => {},
 };
 
 export const Context = createContext<ContextInterface>(defaultContext);
