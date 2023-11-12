@@ -8,6 +8,5 @@ afterEach(() => {
   server.close();
   server.resetHandlers();
   cleanup();
-  server.listen({ onUnhandledRequest: 'error' });
 });
 afterAll(() => server.close());
