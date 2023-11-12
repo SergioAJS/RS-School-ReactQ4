@@ -17,9 +17,15 @@ export const Search = () => {
             placeholder="You can search by the region"
             onChange={onChange}
             value={input}
+            data-testid="input"
           />
         </label>
-        <input className={styles.button} type="submit" value="Search" />
+        <input
+          className={styles.button}
+          type="submit"
+          value="Search"
+          data-testid="search"
+        />
       </form>
     </div>
   );
