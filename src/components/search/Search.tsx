@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import styles from 'src/components/search/Search.module.scss';
-import { Context } from 'src/components/utils/context';
+import { Context } from 'src/utils/context';
 
 export const Search = () => {
   const { input, onChange, handleSearch } = useContext(Context);

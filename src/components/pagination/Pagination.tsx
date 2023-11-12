@@ -1,7 +1,7 @@
 import { SyntheticEvent } from 'react';
 import { Button } from 'src/components/button/Button';
 import styles from 'src/components/pagination/Pagination.module.scss';
-import { ParsedData } from 'src/components/utils/parseLinkHeader';
+import { ParsedData } from 'src/utils/parseLinkHeader';
 
 interface PaginationProps {
   page: string | undefined;

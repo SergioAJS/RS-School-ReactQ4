@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
-import {
-  ParsedData,
-  parseLinkHeader,
-} from 'src/components/utils/parseLinkHeader';
+import { ParsedData, parseLinkHeader } from 'src/utils/parseLinkHeader';
 import { HouseGOT } from 'src/models/HouseGOT';
 
 export const useFetchGOTHouse = (houseID: string) => {
   const [house, setHouse] = useState<HouseGOT | null>();
-  const [parsedLink, serParsedLink] = useState<ParsedData | null>(null);
+  const [parsedLink, setParsedLink] = useState<ParsedData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,7 +22,7 @@ export const useFetchGOTHouse = (houseID: string) => {
         );
         const linkHeader = apiResponseRaw.headers.get('Link');
         if (linkHeader) {
-          serParsedLink(parseLinkHeader(linkHeader));
+          setParsedLink(parseLinkHeader(linkHeader));
         }
         const apiResponse: HouseGOT = await apiResponseRaw.json();
         if (!apiResponse) {

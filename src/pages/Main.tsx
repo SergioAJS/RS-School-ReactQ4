@@ -5,9 +5,10 @@ import { Pagination } from 'src/components/pagination/Pagination';
 import { Search } from 'src/components/search/Search';
 import { Select } from 'src/components/select/Select';
 import { TestErrorBoundary } from 'src/components/testErrorBoundary/TestErrorBoundary';
-import { Context } from 'src/components/utils/context';
+import { Context } from 'src/utils/context';
 import styles from 'src/pages/Main.module.scss';
 import { useFetchGOT } from 'src/service/useFetchGOT';
+import { switchPages } from 'src/utils/switchPages';
 
 export type ContextType = {
   houseID: string;
@@ -62,20 +63,7 @@ export const Main = () => {
         navigate('/');
       }
     };
-    switch (target.value) {
-      case 'First':
-        slice(parsedLink?.first);
-        break;
-      case 'Last':
-        slice(parsedLink?.last);
-        break;
-      case 'Prev':
-        slice(parsedLink?.prev);
-        break;
-      case 'Next':
-        slice(parsedLink?.next);
-        break;
-    }
+    switchPages(target.value, parsedLink, slice);
   };
 
   const onSelect = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -112,7 +100,9 @@ export const Main = () => {
   };
 
   return (
-    <Context.Provider value={{ input, onChange, handleSearch, houses }}>
+    <Context.Provider
+      value={{ input, onChange, handleSearch, houses, onCardClick }}
+    >
       <div className={styles.main}>
         <Search />
         <TestErrorBoundary />
@@ -143,7 +133,7 @@ export const Main = () => {
           <HouseCards
             isLoading={isLoading}
             error={error}
-            onCardClick={onCardClick}
+            // onCardClick={onCardClick}
           />
           <Outlet context={{ houseID } satisfies ContextType} />
         </div>

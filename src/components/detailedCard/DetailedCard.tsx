@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styles from 'src/components/detailedCard/DetailedCard.module.scss';
 import { Loader } from 'src/components/loader/Loader';
-import { useID } from 'src/components/utils/useID';
+import { useID } from 'src/utils/useID';
 import closeIcon from 'src/resources/close.svg';
 import { useFetchGOTHouse } from 'src/service/useFetchGOTHouse';
 

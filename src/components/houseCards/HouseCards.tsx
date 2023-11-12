@@ -2,13 +2,13 @@ import { useContext } from 'react';
 import { HouseCard } from 'src/components/houseCard/HouseCard';
 import styles from 'src/components/houseCards/HouseCards.module.scss';
 import { Loader } from 'src/components/loader/Loader';
-import { Context } from 'src/components/utils/context';
+import { Context } from 'src/utils/context';
 import { HouseGOT } from 'src/models/HouseGOT';
 
 interface CardsProps {
   isLoading: boolean;
   error: string | null;
-  onCardClick: (houseID: string) => void;
+  // onCardClick: (houseID: string) => void;
 }
 
 export const HouseCards = (props: CardsProps) => {
@@ -20,7 +20,7 @@ export const HouseCards = (props: CardsProps) => {
         <HouseCard
           house={house}
           key={house.url}
-          onCardClick={props.onCardClick}
+          // onCardClick={props.onCardClick}
         />
       ));
   };

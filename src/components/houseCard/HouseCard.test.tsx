@@ -2,7 +2,7 @@ import { rest } from 'msw';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from 'src/App';
 import { HouseCards } from 'src/components/houseCards/HouseCards';
-import { Context, defaultContext } from 'src/components/utils/context';
+import { Context, defaultContext } from 'src/utils/context';
 import { testHouse } from 'src/mock/handlers';
 import { mock4Houses } from 'src/mock/mock4Houses';
 import server from 'src/mock/testServer';
@@ -15,7 +15,7 @@ describe('House card component', () => {
     render(
       <BrowserRouter>
         <Context.Provider value={{ ...defaultContext, houses: mock4Houses }}>
-          <HouseCards isLoading={false} error={null} onCardClick={() => {}} />
+          <HouseCards isLoading={false} error={null} />
         </Context.Provider>
       </BrowserRouter>
     );

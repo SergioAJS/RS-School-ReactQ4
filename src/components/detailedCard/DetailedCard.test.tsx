@@ -85,3 +85,33 @@ describe('Detailed card component', () => {
     expect(detailedCard).not.toBeVisible();
   });
 });
+
+describe('', () => {
+  beforeAll(() => {
+    server.close();
+    server.listen({ onUnhandledRequest: 'error' });
+  });
+
+  it('Ensure that clicking the close button hides the component', async () => {
+    render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
+
+    const card = await screen.findByText(/House Algood/i);
+
+    fireEvent.click(card);
+
+    server.use(
+      rest.get(
+        'https://www.anapioficeandfire.com/api/houses/1',
+        (_req, res, ctx) => {
+          return res(ctx.status(401), ctx.json([]));
+        }
+      )
+    );
+
+    // await screen.findByText('House does not exist');
+  });
+});

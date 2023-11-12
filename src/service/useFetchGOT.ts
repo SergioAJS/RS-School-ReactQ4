@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  ParsedData,
-  parseLinkHeader,
-} from 'src/components/utils/parseLinkHeader';
+import { ParsedData, parseLinkHeader } from 'src/utils/parseLinkHeader';
 import { HouseGOT } from 'src/models/HouseGOT';
 
 export const useFetchGOT = (

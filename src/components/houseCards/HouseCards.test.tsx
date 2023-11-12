@@ -1,6 +1,6 @@
 import { BrowserRouter } from 'react-router-dom';
 import { HouseCards } from 'src/components/houseCards/HouseCards';
-import { Context, defaultContext } from 'src/components/utils/context';
+import { Context, defaultContext } from 'src/utils/context';
 import { mock10Houses } from 'src/mock/mock10Houses';
 import { mock4Houses } from 'src/mock/mock4Houses';
 import { HouseGOT } from 'src/models/HouseGOT';
