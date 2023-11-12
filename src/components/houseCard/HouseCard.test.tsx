@@ -7,6 +7,8 @@ import { testHouse } from 'src/mock/handlers';
 import { mock4Houses } from 'src/mock/mock4Houses';
 import server from 'src/mock/testServer';
 import { fireEvent, render, screen } from '@testing-library/react';
+import { vi } from 'vitest';
+import { useFetchGOTHouse } from 'src/service/useFetchGOTHouse';
 
 describe('House card component', () => {
   it('The card component renders the relevant card data', () => {
@@ -48,5 +50,27 @@ describe('House card component', () => {
     );
 
     await screen.findByTestId('detailedCard');
+  });
+
+  it('Check that clicking triggers an additional API call to fetch detailed information', async () => {
+    describe('House card component', () => {
+      it('Check that clicking triggers an additional API call to fetch detailed information', async () => {
+        render(
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        );
+
+        const card = await screen.findByText(/House Algood/i);
+
+        fireEvent.click(card);
+
+        const method = 'fetch';
+
+        const spy = vi.spyOn(useFetchGOTHouse, method);
+
+        expect(spy).toHaveBeenCalled();
+      });
+    });
   });
 });

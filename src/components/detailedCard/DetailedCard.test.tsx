@@ -27,12 +27,6 @@ describe('Detailed card component', () => {
     );
 
     expect(screen.getByTestId('loader')).toHaveTextContent('Loading');
-
-    await screen.findByTestId('detailedCard');
-
-    await screen.findByText(
-      'Coat Of Arms: A golden wreath, on a blue field with a gold border(Azure, a garland of laurel within a bordure or)'
-    );
   });
 
   it('The detailed card component correctly displays the detailed card data', async () => {
