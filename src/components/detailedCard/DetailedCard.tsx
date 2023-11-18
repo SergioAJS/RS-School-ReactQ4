@@ -3,20 +3,22 @@ import styles from 'src/components/detailedCard/DetailedCard.module.scss';
 import { Loader } from 'src/components/loader/Loader';
 import { useID } from 'src/utils/useID';
 import closeIcon from 'src/resources/close.svg';
-import { useFetchGOTHouse } from 'src/service/useFetchGOTHouse';
+// import { useFetchGOTHouse } from 'src/service/useFetchGOTHouse';
+import { useGetHouseQuery } from 'src/redux';
 
 export const DetailedCard = () => {
   const { houseID } = useID();
-  const { house, isLoading, error } = useFetchGOTHouse(houseID);
+  // const { house, isLoading, error } = useFetchGOTHouse(houseID);
+  const { data, isFetching, isError } = useGetHouseQuery(houseID);
   const navigate = useNavigate();
 
   return (
     <>
       <div className={styles.details}>
-        {isLoading ? (
+        {isFetching ? (
           <Loader />
-        ) : error ? (
-          <p>{error}</p>
+        ) : isError ? (
+          <p>{'error'}</p>
         ) : (
           <>
             <img
@@ -29,10 +31,10 @@ export const DetailedCard = () => {
               }}
             />
             <div className={styles.card} data-testid="detailedCard">
-              <h3>{house?.name}</h3>
-              <p>Region: {house?.region}</p>
-              <p>Coat Of Arms: {house?.coatOfArms}</p>
-              <p>Words: {house?.words}</p>
+              <h3>{data?.name}</h3>
+              <p>Region: {data?.region}</p>
+              <p>Coat Of Arms: {data?.coatOfArms}</p>
+              <p>Words: {data?.words}</p>
             </div>
           </>
         )}

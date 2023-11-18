@@ -30,9 +30,12 @@ export const housesApi = createApi({
         return { houses, parsedLink };
       },
     }),
+    getHouse: builder.query<HouseGOT, string>({
+      query: (id) => `${id && `${id}`}`,
+    }),
   }),
 });
 
-export const { useGetHousesQuery } = housesApi;
+export const { useGetHousesQuery, useGetHouseQuery } = housesApi;
 
 export default housesApi.reducer;
