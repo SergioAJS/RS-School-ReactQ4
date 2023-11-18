@@ -5,7 +5,7 @@ import { ParsedData } from 'src/utils/parseLinkHeader';
 
 interface PaginationProps {
   page: string | undefined;
-  parsedLink: ParsedData | null;
+  parsedLink: ParsedData | null | undefined;
   onChangePage: (event: SyntheticEvent) => void;
 }
 

@@ -2,7 +2,7 @@ import { ParsedData } from 'src/utils/parseLinkHeader';
 
 export const switchPages = (
   value: string,
-  parsedLink: ParsedData | null,
+  parsedLink: ParsedData | null | undefined,
   slice: (link: string | undefined) => void
 ) => {
   switch (value) {

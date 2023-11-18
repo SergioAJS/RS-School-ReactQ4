@@ -8,7 +8,9 @@ import { mock4Houses } from 'src/mock/mock4Houses';
 import server from 'src/mock/testServer';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
-import { useFetchGOTHouse } from 'src/service/useFetchGOTHouse';
+// import { useFetchGOTHouse } from 'src/service/useFetchGOTHouse';
+import { Provider } from 'react-redux';
+import { setupStore, useGetHousesQuery } from 'src/redux';
 
 describe('House card component', () => {
   it('The card component renders the relevant card data', () => {
@@ -32,7 +34,9 @@ describe('House card component', () => {
   it('Validate that clicking on a card opens a detailed card component', async () => {
     render(
       <BrowserRouter>
-        <App />
+        <Provider store={setupStore()}>
+          <App />
+        </Provider>
       </BrowserRouter>
     );
 
@@ -57,7 +61,9 @@ describe('House card component', () => {
       it('Check that clicking triggers an additional API call to fetch detailed information', async () => {
         render(
           <BrowserRouter>
-            <App />
+            <Provider store={setupStore()}>
+              <App />
+            </Provider>
           </BrowserRouter>
         );
 
@@ -67,7 +73,8 @@ describe('House card component', () => {
 
         const method = 'fetch';
 
-        const spy = vi.spyOn(useFetchGOTHouse, method);
+        // const spy = vi.spyOn(useFetchGOTHouse, method);
+        const spy = vi.spyOn(useGetHousesQuery, method);
 
         expect(spy).toHaveBeenCalled();
       });

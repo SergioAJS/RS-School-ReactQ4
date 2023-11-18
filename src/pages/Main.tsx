@@ -7,8 +7,9 @@ import { Select } from 'src/components/select/Select';
 import { TestErrorBoundary } from 'src/components/testErrorBoundary/TestErrorBoundary';
 import { Context } from 'src/utils/context';
 import styles from 'src/pages/Main.module.scss';
-import { useFetchGOT } from 'src/service/useFetchGOT';
+// import { useFetchGOT } from 'src/service/useFetchGOT';
 import { switchPages } from 'src/utils/switchPages';
+import { useGetHousesQuery } from 'src/redux';
 
 export type ContextType = {
   houseID: string;
@@ -39,11 +40,19 @@ export const Main = () => {
   const [houseID, setHouseID] = useState(
     localStorage.getItem('houseID-SergioAJS') || ''
   );
-  const { houses, isLoading, error, parsedLink } = useFetchGOT(
-    searchValue,
-    page,
-    numberOfItems
+  // const { houses, isLoading, error, parsedLink } = useFetchGOT(
+  //   searchValue,
+  //   page,
+  //   numberOfItems
+  // );
+
+  const { data, isError, isFetching } = useGetHousesQuery(
+    `${page && `page=${page}`}${numberOfItems && `&pageSize=${numberOfItems}`}${
+      searchValue && `&region=${searchValue}`
+    }`
   );
+
+  const houses = data?.houses;
 
   useEffect(() => {
     if (page) search.set('page', page);
@@ -63,7 +72,7 @@ export const Main = () => {
         navigate('/');
       }
     };
-    switchPages(target.value, parsedLink, slice);
+    switchPages(target.value, data?.parsedLink, slice);
   };
 
   const onSelect = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -108,7 +117,7 @@ export const Main = () => {
         <TestErrorBoundary />
         <Pagination
           page={page}
-          parsedLink={parsedLink}
+          parsedLink={data?.parsedLink}
           onChangePage={onChangePage}
         />
         <Select
@@ -131,8 +140,8 @@ export const Main = () => {
         />
         <div className={styles.cardsContainer}>
           <HouseCards
-            isLoading={isLoading}
-            error={error}
+            isLoading={isFetching}
+            isError={isError}
             // onCardClick={onCardClick}
           />
           <Outlet context={{ houseID } satisfies ContextType} />

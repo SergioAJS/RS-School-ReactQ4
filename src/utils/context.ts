@@ -5,7 +5,8 @@ export interface ContextInterface {
   input: string;
   onChange: (event: React.FormEvent<HTMLInputElement>) => void;
   handleSearch: (event: React.FormEvent<HTMLFormElement>) => void;
-  houses: HouseGOT[];
+  // houses?: HouseGOT[];
+  houses?: HouseGOT[];
   onCardClick: (houseID: string) => void;
 }
 

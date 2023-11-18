@@ -2,6 +2,8 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { App } from 'src/App';
 import { vi } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { setupStore } from 'src/redux';
 
 describe('App', () => {
   beforeEach(() => {
@@ -17,7 +19,9 @@ describe('App', () => {
   it('Check that the component retrieves the value from the local storage upon mounting', () => {
     render(
       <MemoryRouter>
-        <App />
+        <Provider store={setupStore()}>
+          <App />
+        </Provider>
       </MemoryRouter>
     );
     const input = screen.getByTestId('input');
@@ -35,7 +39,9 @@ describe('App', () => {
   it('Verify that clicking the Search button saves the entered value to the local storage', () => {
     render(
       <MemoryRouter>
-        <App />
+        <Provider store={setupStore()}>
+          <App />
+        </Provider>
       </MemoryRouter>
     );
     expect(window.localStorage.getItem).toHaveBeenCalled();

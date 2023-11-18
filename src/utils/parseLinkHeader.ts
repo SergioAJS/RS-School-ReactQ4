@@ -5,17 +5,19 @@ export interface ParsedData {
   last?: string;
 }
 
-export const parseLinkHeader = (data: string) => {
-  let arrData = data.split('link:');
-  data = arrData.length == 2 ? arrData[1] : data;
-  const parsed_data: ParsedData = {};
+export const parseLinkHeader = (data: string | null | undefined) => {
+  if (data) {
+    let arrData = data.split('link:');
+    data = arrData.length == 2 ? arrData[1] : data;
+    const parsed_data: ParsedData = {};
 
-  arrData = data.split(',');
+    arrData = data.split(',');
 
-  for (const d of arrData) {
-    const linkInfo = /<([^>]+)>;\s+rel="([^"]+)"/gi.exec(d);
-    if (linkInfo) parsed_data[linkInfo[2] as keyof ParsedData] = linkInfo[1];
+    for (const d of arrData) {
+      const linkInfo = /<([^>]+)>;\s+rel="([^"]+)"/gi.exec(d);
+      if (linkInfo) parsed_data[linkInfo[2] as keyof ParsedData] = linkInfo[1];
+    }
+
+    return parsed_data;
   }
-
-  return parsed_data;
 };

@@ -7,14 +7,14 @@ import { HouseGOT } from 'src/models/HouseGOT';
 
 interface CardsProps {
   isLoading: boolean;
-  error: string | null;
+  isError: boolean;
   // onCardClick: (houseID: string) => void;
 }
 
 export const HouseCards = (props: CardsProps) => {
   const { houses } = useContext(Context);
 
-  const renderCards = (houses: HouseGOT[]) => {
+  const renderCards = (houses: HouseGOT[] | undefined) => {
     if (houses)
       return houses.map((house) => (
         <HouseCard
@@ -29,8 +29,8 @@ export const HouseCards = (props: CardsProps) => {
     <div>
       {props.isLoading ? (
         <Loader />
-      ) : props.error ? (
-        <p>{props.error}</p>
+      ) : props.isError ? (
+        <p>{'error'}</p>
       ) : (
         <>
           <ul className={styles.cards}>{renderCards(houses)}</ul>

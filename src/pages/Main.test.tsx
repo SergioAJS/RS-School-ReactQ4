@@ -1,15 +1,19 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { Main } from 'src/pages/Main';
-import { Context, defaultContext } from 'src/utils/context';
+import { setupStore } from 'src/redux';
+// import { Context, defaultContext } from 'src/utils/context';
 
 describe('Tests for the Pagination component', () => {
   it('Make sure the component updates URL query parameter when page changes', async () => {
     render(
       <MemoryRouter initialEntries={['/?page=2']}>
-        <Context.Provider value={{ ...defaultContext }}>
+        {/* <Context.Provider value={{ ...defaultContext }}> */}
+        <Provider store={setupStore()}>
           <Main />
-        </Context.Provider>
+        </Provider>
+        {/* </Context.Provider> */}
       </MemoryRouter>
     );
 

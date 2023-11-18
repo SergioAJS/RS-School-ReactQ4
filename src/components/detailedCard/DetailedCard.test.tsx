@@ -4,13 +4,17 @@ import { App } from 'src/App';
 import { testHouse } from 'src/mock/handlers';
 import server from 'src/mock/testServer';
 import { fireEvent, render, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { setupStore } from 'src/redux';
 
 describe('Detailed card component', () => {
   it('Check that a loading indicator is displayed while fetching data', async () => {
     render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <Provider store={setupStore()}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
     );
 
     const card = await screen.findByText(/House Algood/i);
@@ -31,9 +35,11 @@ describe('Detailed card component', () => {
 
   it('The detailed card component correctly displays the detailed card data', async () => {
     render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <Provider store={setupStore()}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
     );
 
     const card = await screen.findByText(/House Algood/i);
@@ -58,9 +64,11 @@ describe('Detailed card component', () => {
 
   it('Ensure that clicking the close button hides the component', async () => {
     render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <Provider store={setupStore()}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
     );
 
     const card = await screen.findByText(/House Algood/i);
@@ -94,9 +102,11 @@ describe('', () => {
 
   it('Ensure that clicking the close button hides the component', async () => {
     render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <Provider store={setupStore()}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
     );
 
     const card = await screen.findByText(/House Algood/i);
