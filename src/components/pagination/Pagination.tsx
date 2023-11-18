@@ -1,38 +1,63 @@
 import { SyntheticEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from 'src/components/button/Button';
 import styles from 'src/components/pagination/Pagination.module.scss';
-import { ParsedData } from 'src/utils/parseLinkHeader';
+import { useAppDispatch, useAppSelector } from 'src/hooks/hooks';
+import { setPage } from 'src/redux/housesQuerySlice';
+// import { ParsedData } from 'src/utils/parseLinkHeader';
+import { switchPages } from 'src/utils/switchPages';
 
-interface PaginationProps {
-  page: string | undefined;
-  parsedLink: ParsedData | null | undefined;
-  onChangePage: (event: SyntheticEvent) => void;
-}
+// interface PaginationProps {
+//   page: string | undefined;
+//   parsedLink: ParsedData;
+//   onChangePage: (event: SyntheticEvent) => void;
+// }
 
-export const Pagination = (props: PaginationProps) => {
+export const Pagination = () => {
+  const dispatch = useAppDispatch();
+  const parsedLink = useAppSelector((state) => state.housesQuery.parsedLink);
+  const page = useAppSelector((state) => state.housesQuery.page);
+  const navigate = useNavigate();
+
+  const onChangePage = (event: SyntheticEvent) => {
+    const target = event.target as HTMLButtonElement;
+    const slice = (link: string | undefined) => {
+      if (link) {
+        const result = link.split('&').slice(-2, -1)[0].split('=')[1];
+        // search.set('page', result);
+        localStorage.setItem('page-SergioAJS', result);
+        dispatch(setPage(result));
+        // setPage(result);
+        // setSearch(search);
+        navigate('/');
+      }
+    };
+    switchPages(target.value, parsedLink, slice);
+  };
+
   return (
     <div className={styles.pagination}>
       <Button
         className={styles.button}
         type="submit"
         value={'First'}
-        onClick={props.onChangePage}
+        onClick={onChangePage}
         text="First"
       />
       <Button
-        disabled={!props.parsedLink?.prev}
+        disabled={!parsedLink?.prev}
         className={styles.button}
         type="submit"
-        onClick={props.onChangePage}
+        onClick={onChangePage}
         value={'Prev'}
         text="Prev"
       />
-      <p>Page: {props.page}</p>
+      <p>Page: {page}</p>
       <Button
-        disabled={!props.parsedLink?.next}
+        disabled={!parsedLink?.next}
         className={styles.button}
         type="submit"
-        onClick={props.onChangePage}
+        onClick={onChangePage}
         value={'Next'}
         text="Next"
       />
@@ -40,7 +65,7 @@ export const Pagination = (props: PaginationProps) => {
         className={styles.button}
         type="submit"
         value={'Last'}
-        onClick={props.onChangePage}
+        onClick={onChangePage}
         text="Last"
       />
     </div>

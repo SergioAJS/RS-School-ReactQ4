@@ -1,18 +1,46 @@
-import { useContext } from 'react';
+// import { useContext, useEffect } from 'react';
 import { HouseCard } from 'src/components/houseCard/HouseCard';
 import styles from 'src/components/houseCards/HouseCards.module.scss';
 import { Loader } from 'src/components/loader/Loader';
-import { Context } from 'src/utils/context';
+// import { Context } from 'src/utils/context';
 import { HouseGOT } from 'src/models/HouseGOT';
+import { useAppDispatch, useAppSelector } from 'src/hooks/hooks';
+import { useGetHousesQuery } from 'src/redux';
+import { useEffect } from 'react';
+import { setParsedLink } from 'src/redux/housesQuerySlice';
+import { useSearchParams } from 'react-router-dom';
 
-interface CardsProps {
-  isLoading: boolean;
-  isError: boolean;
-  // onCardClick: (houseID: string) => void;
-}
+// interface CardsProps {
+// isLoading: boolean;
+// isError: boolean;
+// onCardClick: (houseID: string) => void;
+// }
 
-export const HouseCards = (props: CardsProps) => {
-  const { houses } = useContext(Context);
+export const HouseCards = () => {
+  // const { houses } = useContext(Context);
+  const dispatch = useAppDispatch();
+  const [search, setSearch] = useSearchParams();
+
+  const searchValue = useAppSelector((state) => state.housesQuery.searchValue);
+  const page = useAppSelector((state) => state.housesQuery.page);
+  const numberOfItems = useAppSelector(
+    (state) => state.housesQuery.numberOfItems
+  );
+  const { data, isError, isFetching } = useGetHousesQuery(
+    `${page && `page=${page}`}${numberOfItems && `&pageSize=${numberOfItems}`}${
+      searchValue && `&region=${searchValue}`
+    }`
+  );
+
+  useEffect(() => {
+    if (page) search.set('page', page);
+    if (numberOfItems) search.set('numberOfItems', numberOfItems);
+    setSearch(search);
+
+    if (data) {
+      dispatch(setParsedLink(data.parsedLink));
+    }
+  }, [data, dispatch, numberOfItems, page, search, setSearch]);
 
   const renderCards = (houses: HouseGOT[] | undefined) => {
     if (houses)
@@ -27,13 +55,13 @@ export const HouseCards = (props: CardsProps) => {
 
   return (
     <div>
-      {props.isLoading ? (
+      {isFetching ? (
         <Loader />
-      ) : props.isError ? (
+      ) : isError ? (
         <p>{'error'}</p>
       ) : (
         <>
-          <ul className={styles.cards}>{renderCards(houses)}</ul>
+          <ul className={styles.cards}>{renderCards(data?.houses)}</ul>
         </>
       )}
     </div>

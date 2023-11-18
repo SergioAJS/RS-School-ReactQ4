@@ -7,9 +7,9 @@ import closeIcon from 'src/resources/close.svg';
 import { useGetHouseQuery } from 'src/redux';
 
 export const DetailedCard = () => {
-  const { houseID } = useID();
+  const { houseId } = useID();
   // const { house, isLoading, error } = useFetchGOTHouse(houseID);
-  const { data, isFetching, isError } = useGetHouseQuery(houseID);
+  const { data, isFetching, isError } = useGetHouseQuery(houseId);
   const navigate = useNavigate();
 
   return (
