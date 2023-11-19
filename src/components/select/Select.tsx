@@ -8,8 +8,6 @@ interface SelectProps {
   label: string;
   name: string;
   id: string;
-  // value: string;
-  // onSelect: (event: ChangeEvent<HTMLSelectElement>) => void;
   options: IOption[];
 }
 
@@ -24,15 +22,9 @@ export const Select = (props: SelectProps) => {
 
   const onSelect = (event: ChangeEvent<HTMLSelectElement>) => {
     const select = event.target.value;
-    // select
-    //   ? search.set('numberOfItems', select)
-    //   : search.delete('numberOfItems');
-    // search.set('page', FIRST_PAGE);
-    // setSearch(search);
     setNumberOfItems(select);
     dispatch(setNumberOfItems(select));
     dispatch(setPage(FIRST_PAGE));
-    // setPage(FIRST_PAGE);
     localStorage.setItem('numberOfItems-SergioAJS', select);
     navigate('/');
   };

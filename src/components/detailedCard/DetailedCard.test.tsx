@@ -3,18 +3,15 @@ import { BrowserRouter } from 'react-router-dom';
 import { App } from 'src/App';
 import { testHouse } from 'src/mock/handlers';
 import server from 'src/mock/testServer';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { setupStore } from 'src/redux';
+import { renderWithProviders } from 'src/utils/testUtils';
+import { fireEvent, screen } from '@testing-library/react';
 
 describe('Detailed card component', () => {
   it('Check that a loading indicator is displayed while fetching data', async () => {
-    render(
-      <Provider store={setupStore()}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </Provider>
+    renderWithProviders(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     );
 
     const card = await screen.findByText(/House Algood/i);
@@ -34,12 +31,10 @@ describe('Detailed card component', () => {
   });
 
   it('The detailed card component correctly displays the detailed card data', async () => {
-    render(
-      <Provider store={setupStore()}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </Provider>
+    renderWithProviders(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     );
 
     const card = await screen.findByText(/House Algood/i);
@@ -63,12 +58,10 @@ describe('Detailed card component', () => {
   });
 
   it('Ensure that clicking the close button hides the component', async () => {
-    render(
-      <Provider store={setupStore()}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </Provider>
+    renderWithProviders(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     );
 
     const card = await screen.findByText(/House Algood/i);
@@ -92,21 +85,12 @@ describe('Detailed card component', () => {
 
     expect(detailedCard).not.toBeVisible();
   });
-});
-
-describe('', () => {
-  beforeAll(() => {
-    server.close();
-    server.listen({ onUnhandledRequest: 'error' });
-  });
 
   it('Ensure that clicking the close button hides the component', async () => {
-    render(
-      <Provider store={setupStore()}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </Provider>
+    renderWithProviders(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     );
 
     const card = await screen.findByText(/House Algood/i);
@@ -117,11 +101,16 @@ describe('', () => {
       rest.get(
         'https://www.anapioficeandfire.com/api/houses/1',
         (_req, res, ctx) => {
-          return res(ctx.status(401), ctx.json([]));
+          return res(ctx.status(200), ctx.json(testHouse), ctx.delay(50));
         }
       )
     );
 
-    // await screen.findByText('House does not exist');
+    const closeDetailedCard = await screen.findByAltText('close');
+    const detailedCard = screen.getByTestId('detailedCard');
+
+    fireEvent.click(closeDetailedCard);
+
+    expect(detailedCard).not.toBeInTheDocument();
   });
 });

@@ -1,6 +1,6 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { HouseGOT } from 'src/models/HouseGOT';
 import { ParsedData, parseLinkHeader } from 'src/utils/parseLinkHeader';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export type HousesResponse = {
   houses: HouseGOT[];
@@ -16,13 +16,6 @@ export const housesApi = createApi({
   endpoints: (builder) => ({
     getHouses: builder.query<HousesResponse, string>({
       query: (query = '') => `?${query}`,
-      // providesTags: (result) =>
-      //   result
-      //     ? [
-      //         // ...result.map(({ url })) => ({ type: 'houses' as const, url}),
-      //         { type: 'houses', url: 'LIST' },
-      //       ]
-      //     : [{ type: 'houses', url: 'LIST' }],
       transformResponse: (response: HouseGOT[], meta) => {
         const linkHeaderRaw = meta?.response?.headers.get('Link');
         const parsedLink = parseLinkHeader(linkHeaderRaw);

@@ -8,10 +8,8 @@ import {
   setPage,
   setSearchValue,
 } from 'src/redux/housesQuerySlice';
-// import { Context } from 'src/utils/context';
 
 export const Search = () => {
-  // const { input, onChange, handleSearch } = useContext(Context);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const inputValue = useAppSelector((state) => state.housesQuery.inputValue);

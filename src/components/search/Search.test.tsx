@@ -1,12 +1,11 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { App } from 'src/App';
-import { vi } from 'vitest';
 import { MemoryRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { setupStore } from 'src/redux';
+import { App } from 'src/App';
+import { renderWithProviders } from 'src/utils/testUtils';
+import { vi } from 'vitest';
+import { fireEvent, screen } from '@testing-library/react';
 
 describe('App', () => {
-  beforeEach(() => {
+  beforeAll(() => {
     Object.defineProperty(window, 'localStorage', {
       value: {
         getItem: vi.fn(() => null),
@@ -17,11 +16,9 @@ describe('App', () => {
   });
 
   it('Check that the component retrieves the value from the local storage upon mounting', () => {
-    render(
+    renderWithProviders(
       <MemoryRouter>
-        <Provider store={setupStore()}>
-          <App />
-        </Provider>
+        <App />
       </MemoryRouter>
     );
     const input = screen.getByTestId('input');
@@ -37,11 +34,9 @@ describe('App', () => {
   });
 
   it('Verify that clicking the Search button saves the entered value to the local storage', () => {
-    render(
+    renderWithProviders(
       <MemoryRouter>
-        <Provider store={setupStore()}>
-          <App />
-        </Provider>
+        <App />
       </MemoryRouter>
     );
     expect(window.localStorage.getItem).toHaveBeenCalled();

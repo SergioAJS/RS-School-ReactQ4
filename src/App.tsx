@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { DetailedCard } from 'src/components/detailedCard/DetailedCard';
-import { Main } from 'src/pages/Main';
-import { Page404 } from 'src/pages/Page404';
+import { Main } from 'src/pages/main/Main';
+import { Page404 } from 'src/pages/page404/Page404';
 import 'src/App.scss';
 
 export const App = () => {

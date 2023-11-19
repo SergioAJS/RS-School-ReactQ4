@@ -2,25 +2,22 @@ import { rest } from 'msw';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from 'src/App';
 import { HouseCards } from 'src/components/houseCards/HouseCards';
-import { Context, defaultContext } from 'src/utils/context';
 import { testHouse } from 'src/mock/handlers';
-import { mock4Houses } from 'src/mock/mock4Houses';
 import server from 'src/mock/testServer';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { useGetHousesQuery } from 'src/redux';
+import { renderWithProviders } from 'src/utils/testUtils';
 import { vi } from 'vitest';
-// import { useFetchGOTHouse } from 'src/service/useFetchGOTHouse';
-import { Provider } from 'react-redux';
-import { setupStore, useGetHousesQuery } from 'src/redux';
+import { fireEvent, screen } from '@testing-library/react';
 
 describe('House card component', () => {
-  it('The card component renders the relevant card data', () => {
-    render(
+  it('The card component renders the relevant card data', async () => {
+    renderWithProviders(
       <BrowserRouter>
-        <Context.Provider value={{ ...defaultContext, houses: mock4Houses }}>
-          <HouseCards isLoading={false} error={null} />
-        </Context.Provider>
+        <HouseCards />
       </BrowserRouter>
     );
+
+    await screen.findAllByTestId('houseCard');
 
     expect(screen.getAllByTestId('houseCard')[0]).toHaveTextContent(
       'Region: The Westerlands'
@@ -32,11 +29,9 @@ describe('House card component', () => {
   });
 
   it('Validate that clicking on a card opens a detailed card component', async () => {
-    render(
+    renderWithProviders(
       <BrowserRouter>
-        <Provider store={setupStore()}>
-          <App />
-        </Provider>
+        <App />
       </BrowserRouter>
     );
 
@@ -59,11 +54,9 @@ describe('House card component', () => {
   it('Check that clicking triggers an additional API call to fetch detailed information', async () => {
     describe('House card component', () => {
       it('Check that clicking triggers an additional API call to fetch detailed information', async () => {
-        render(
+        renderWithProviders(
           <BrowserRouter>
-            <Provider store={setupStore()}>
-              <App />
-            </Provider>
+            <HouseCards />
           </BrowserRouter>
         );
 
@@ -73,7 +66,6 @@ describe('House card component', () => {
 
         const method = 'fetch';
 
-        // const spy = vi.spyOn(useFetchGOTHouse, method);
         const spy = vi.spyOn(useGetHousesQuery, method);
 
         expect(spy).toHaveBeenCalled();

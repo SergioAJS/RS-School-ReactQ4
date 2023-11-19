@@ -1,11 +1,10 @@
+import housesApiReducer, { housesApi } from 'src/redux/api/housesApi';
+import housesQuerySlice from 'src/redux/housesQuerySlice';
 import {
   combineReducers,
   configureStore,
   PreloadedState,
 } from '@reduxjs/toolkit';
-
-import housesApiReducer, { housesApi } from 'src/redux/api/housesApi';
-import housesQuerySlice from 'src/redux/housesQuerySlice';
 
 const rootReducer = combineReducers({
   [housesApi.reducerPath]: housesApiReducer,

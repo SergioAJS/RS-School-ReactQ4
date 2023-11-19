@@ -1,5 +1,5 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { ParsedData } from 'src/utils/parseLinkHeader';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface InitialState {
   searchValue: string;

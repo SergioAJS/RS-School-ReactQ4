@@ -1,14 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import styles from 'src/components/detailedCard/DetailedCard.module.scss';
 import { Loader } from 'src/components/loader/Loader';
-import { useID } from 'src/utils/useID';
-import closeIcon from 'src/resources/close.svg';
-// import { useFetchGOTHouse } from 'src/service/useFetchGOTHouse';
 import { useGetHouseQuery } from 'src/redux';
+import closeIcon from 'src/resources/close.svg';
+import { useID } from 'src/utils/useID';
 
 export const DetailedCard = () => {
   const { houseId } = useID();
-  // const { house, isLoading, error } = useFetchGOTHouse(houseID);
   const { data, isFetching, isError } = useGetHouseQuery(houseId);
   const navigate = useNavigate();
 

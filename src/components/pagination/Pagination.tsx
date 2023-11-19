@@ -4,14 +4,7 @@ import { Button } from 'src/components/button/Button';
 import styles from 'src/components/pagination/Pagination.module.scss';
 import { useAppDispatch, useAppSelector } from 'src/hooks/hooks';
 import { setPage } from 'src/redux/housesQuerySlice';
-// import { ParsedData } from 'src/utils/parseLinkHeader';
 import { switchPages } from 'src/utils/switchPages';
-
-// interface PaginationProps {
-//   page: string | undefined;
-//   parsedLink: ParsedData;
-//   onChangePage: (event: SyntheticEvent) => void;
-// }
 
 export const Pagination = () => {
   const dispatch = useAppDispatch();
@@ -24,11 +17,8 @@ export const Pagination = () => {
     const slice = (link: string | undefined) => {
       if (link) {
         const result = link.split('&').slice(-2, -1)[0].split('=')[1];
-        // search.set('page', result);
         localStorage.setItem('page-SergioAJS', result);
         dispatch(setPage(result));
-        // setPage(result);
-        // setSearch(search);
         navigate('/');
       }
     };
