@@ -15,7 +15,6 @@ export const HouseCards = (props: HouseCardsProps) => {
 
   return (
     <div>
-      houses
       <>
         <ul className={styles.cards}>{renderCards(props.data?.houses)}</ul>
       </>
