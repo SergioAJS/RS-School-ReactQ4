@@ -1,6 +1,7 @@
 import { HouseGOT } from 'src/models/HouseGOT';
 import { ParsedData, parseLinkHeader } from 'src/utils/parseLinkHeader';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { HYDRATE } from 'next-redux-wrapper';
 
 export type HousesResponse = {
   houses: HouseGOT[];
@@ -8,11 +9,16 @@ export type HousesResponse = {
 };
 
 export const housesApi = createApi({
-  reducerPath: 'housesApi',
+  // reducerPath: 'housesApi',
   tagTypes: ['houses', 'house'],
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://www.anapioficeandfire.com/api/houses/',
   }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload?.[reducerPath];
+    }
+  },
   endpoints: (builder) => ({
     getHouses: builder.query<HousesResponse, string>({
       query: (query = '') => `?${query}`,
@@ -29,6 +35,10 @@ export const housesApi = createApi({
   }),
 });
 
-export const { useGetHousesQuery, useGetHouseQuery } = housesApi;
+export const {
+  useGetHousesQuery,
+  useGetHouseQuery,
+  util: { getRunningQueriesThunk },
+} = housesApi;
 
 export default housesApi.reducer;
